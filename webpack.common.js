@@ -4,14 +4,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
   entry: { bundle: './src/index.tsx' },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     chunkFilename: '[name].[contenthash].js',
   },
-  devtool: 'source-map',
   devServer: {
     contentBase: './dist',
   },
@@ -20,7 +18,12 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
+      {
+        test: /\.tsx?$/,
+        loader: 'awesome-typescript-loader',
+        include: [path.resolve(__dirname, 'src')],
+        exclude: [path.resolve(__dirname, 'node_modules')],
+      },
       { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
     ],
   },
